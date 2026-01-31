@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(tree:*)",
+      "Bash(ls -la:*)",
+      "Bash(ls:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm prettier:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
