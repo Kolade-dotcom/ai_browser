@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
+import { buildFaviconUrl } from "@/lib/utils/favicon";
 import type { Tab, TabId, ViewMode, HistoryEntry } from "@/types";
 
 interface BrowserStore {
@@ -30,19 +31,6 @@ interface BrowserStore {
   setViewMode: (mode: ViewMode) => void;
   toggleAgentPanel: () => void;
   setAgentPanelOpen: (open: boolean) => void;
-}
-
-// Helper function to fetch favicon
-async function fetchFavicon(url: string): Promise<string | undefined> {
-  if (url === "about:blank" || !url) return undefined;
-
-  try {
-    const urlObj = new URL(url);
-    // Try Google's favicon service
-    return `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=32`;
-  } catch {
-    return undefined;
-  }
 }
 
 export const useBrowserStore = create<BrowserStore>((set, get) => ({
@@ -122,7 +110,7 @@ export const useBrowserStore = create<BrowserStore>((set, get) => ({
   navigateTab: async (tabId, url) => {
     try {
       // Fetch favicon for the URL
-      const favicon = await fetchFavicon(url);
+      const favicon = buildFaviconUrl(url);
 
       const tab = await invoke<Tab>("navigate_tab", { tabId, url });
 
